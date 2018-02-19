@@ -79,7 +79,8 @@ export default function defineGridFactory({ extendHex, Grid, Point }) {
                 neighborsOf: methods.neighborsOfFactory({
                     isValidHex,
                     signedModulo,
-                    compassToNumberDirection
+                    compassToNumberDirection,
+                    cubeToCartesian: Hex.cubeToCartesian
                 }),
                 set: methods.setFactory({ isValidHex })
             }

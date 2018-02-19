@@ -120,7 +120,7 @@ export function hexesBetween(firstHex, lastHex) {
     return hexes
 }
 
-export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDirection }) {
+export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDirection, cubeToCartesian }) {
     /**
      * @memberof Grid#
      * @instance
@@ -199,7 +199,7 @@ export function neighborsOfFactory({ isValidHex, signedModulo, compassToNumberDi
                 }
 
                 const { q, r } = coordinates[direction]
-                return this.get(hex.cubeToCartesian({ q: hex.q + q, r: hex.r + r }))
+                return this.get(cubeToCartesian({ q: hex.q + q, r: hex.r + r }))
             })
             .filter(Boolean)
     }

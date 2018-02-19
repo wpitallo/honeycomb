@@ -4,8 +4,8 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 
 import { ensureXY } from '../utils'
-import extendHexFactory, { staticMethods } from '../../src/hex'
 import PointFactory from '../point'
+import extendHexFactory from '../../src/hex'
 
 const Point = PointFactory({ ensureXY })
 const ensureXYSpy = sinon.spy(ensureXY)
@@ -23,7 +23,11 @@ describe('extendHex', function() {
     })
 
     it('returns a function that has the Hex static methods', function() {
-        expect(Object.entries(Hex)).to.eql(Object.entries(staticMethods))
+        expect(Object.keys(Hex)).to.eql([
+            'cubeToCartesian',
+            'thirdCoordinate',
+            'toCartesian'
+        ])
     })
 
     it('returns a function with the default prototype', function() {
@@ -48,7 +52,6 @@ describe('extendHex', function() {
             'coordinates',
             'corners',
             'cube',
-            'cubeToCartesian',
             'distance',
             'equals',
             'height',
@@ -61,7 +64,6 @@ describe('extendHex', function() {
             'round',
             'set',
             'subtract',
-            'toCartesian',
             'toCube',
             'toPoint',
             'toString',
@@ -158,8 +160,7 @@ describe('Hex creation', function() {
 
     describe('with an object containing all cube coordinates (q, r and s)', () => {
         it('converts them to rectangular (x and y) coordinates', () => {
-            const cubeToCartesian = sinon.stub().returns({ x: 4, y: 5 })
-            const Hex = extendHex({ cubeToCartesian })
+            const cubeToCartesian = sinon.stub(Hex, 'cubeToCartesian').returns({ x: 4, y: 5 })
             const result = Hex({ q: 1, r: 2, s: -3 })
 
             expect(cubeToCartesian).to.have.been.calledWith({ q: 1, r: 2, s: -3 })

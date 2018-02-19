@@ -171,12 +171,13 @@ describe('neighborsOf', () => {
         signedModuloSpy = sinon.spy(signedModulo)
         compassToNumberDirectionSpy = sinon.spy(compassToNumberDirection)
         cubeToCartesian = sinon.stub().returns('cubeToCartesian result')
-        hex = { cubeToCartesian, q: 1, r: 1 }
+        hex = { q: 1, r: 1 }
         get = sinon.spy()
         neighborsOf = methods.neighborsOfFactory({
             isValidHex,
             signedModulo: signedModuloSpy,
-            compassToNumberDirection: compassToNumberDirectionSpy
+            compassToNumberDirection: compassToNumberDirectionSpy,
+            cubeToCartesian
         }).bind({ get })
     })
 

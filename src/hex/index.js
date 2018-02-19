@@ -3,10 +3,6 @@ import { isObject, isNumber, isArray } from 'axis.js'
 import * as statics from './statics'
 import * as methods from './prototype'
 
-export const staticMethods = {
-    thirdCoordinate: statics.thirdCoordinate
-}
-
 export default function extendHexFactory({ ensureXY, Point }) {
     /**
      * @function extendHex
@@ -135,7 +131,6 @@ export default function extendHexFactory({ ensureXY, Point }) {
             coordinates: methods.coordinates,
             corners: methods.cornersFactory({ Point }),
             cube: methods.cube,
-            cubeToCartesian: methods.cubeToCartesian,
             distance: methods.distance,
             equals: methods.equalsFactory({ Point }),
             height: methods.height,
@@ -148,12 +143,6 @@ export default function extendHexFactory({ ensureXY, Point }) {
             round: methods.roundFactory({ Hex }),
             set: methods.setFactory({ Hex }),
             subtract: methods.subtractFactory({ Hex, Point }),
-            /**
-             * Alias for {@link Hex#cubeToCartesian}.
-             * @memberof Hex#
-             * @instance
-             */
-            toCartesian: methods.cubeToCartesian,
             /**
              * Alias for {@link Hex#cartesianToCube}.
              * @memberof Hex#
@@ -169,7 +158,20 @@ export default function extendHexFactory({ ensureXY, Point }) {
         // ensure origin is a point
         finalPrototype.origin = Point(finalPrototype.origin)
 
-        Object.assign(Hex, staticMethods)
+        // static methods
+        Object.assign(Hex, {
+            cubeToCartesian: statics.cubeToCartesianFactory({
+                isPointy: finalPrototype.isPointy(),
+                offset: finalPrototype.offset
+            }),
+            thirdCoordinate: statics.thirdCoordinate,
+            /**
+             * Alias for {@link Hex.cubeToCartesian}.
+             * @memberof Hex
+             * @static
+             */
+            toCartesian: Hex.cubeToCartesian
+        })
 
         /**
          * @function Hex
@@ -233,7 +235,7 @@ export default function extendHexFactory({ ensureXY, Point }) {
                         throw new Error(`Cube coordinates must have a sum of 0. q: ${q}, r: ${r}, s: ${s}, sum: ${q + r + s}.`)
                     }
 
-                    ({ x, y } = finalPrototype.cubeToCartesian({ q, r, s }))
+                    ({ x, y } = Hex.cubeToCartesian({ q, r, s }))
                 } else {
                     ({ x, y } = xOrProps)
                 }

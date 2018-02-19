@@ -56,39 +56,6 @@ export function cube() {
  *
  * @todo make this a static (and instance?) method
  *
- * @param {Object} cubeCoordinates      At least the `q` and `r` cube coordinates.
- * @param {number} cubeCoordinates.q    The `q` cube coordinate.
- * @param {number} cubeCoordinates.r    The `r` cube coordinate.
- * @param {number} [cubeCoordinates.s]  The optional `s` cube coordinate.
- *
- * @returns {Object}                    The hex's cartesian `x` and `y` coordinates.
- *
- * @example
- * const Hex = Honeycomb.extendHex()
- *
- * Hex().cubeToCartesian({ q: 1, r: 2, s: -3 }) // { x: 2, y: 2 }
- * // the `s` coordinate isn't required:
- * Hex().cubeToCartesian({ q: -3, r: 5 })       // { x: -1, y: 5 }
- */
-export function cubeToCartesian({ q, r }) {
-    let x, y
-
-    if (this.isPointy()) {
-        x = q + offsetFromZero(this.offset, r)
-        y = r
-    } else {
-        x = q
-        y = r + offsetFromZero(this.offset, q)
-    }
-
-    return { x, y }
-}
-
-/**
- * @memberof Hex#
- *
- * @todo make this a static (and instance?) method
- *
  * @param {Object} cartesianCoordinates     The `x` and `y` cartesian coordinate.
  * @param {number} cartesianCoordinates.x   The `x` cartesian coordinate.
  * @param {number} cartesianCoordinates.y   The `y` cartesian coordinate.
