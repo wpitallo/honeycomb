@@ -37,3 +37,29 @@ describe('cubeToCartesian', () => {
         })
     })
 })
+
+describe('cartesianToCube', () => {
+    describe('when the hex has a pointy orientation', () => {
+        it('converts the passed cube coordinates to rectangular coordinates', () => {
+            const isPointy = true
+            let cartesianToCube = statics.cartesianToCubeFactory({ isPointy, offset: -1 })
+
+            expect(cartesianToCube({ x: 2, y: 1 })).to.eql({ q: 2, r: 1, s: -3 })
+
+            cartesianToCube = statics.cartesianToCubeFactory({ isPointy, offset: 1 })
+            expect(cartesianToCube({ x: 3, y: 1 })).to.eql({ q: 2, r: 1, s: -3 })
+        })
+    })
+
+    describe('when the hex has a flat orientation', () => {
+        it('converts the passed cube coordinates to rectangular coordinates', () => {
+            const isPointy = false
+            let cartesianToCube = statics.cartesianToCubeFactory({ isPointy, offset: -1 })
+
+            expect(cartesianToCube({ x: 1, y: 1 })).to.eql({ q: 1, r: 1, s: -2 })
+
+            cartesianToCube = statics.cartesianToCubeFactory({ isPointy, offset: 1 })
+            expect(cartesianToCube({ x: 1, y: 2 })).to.eql({ q: 1, r: 1, s: -2 })
+        })
+    })
+})

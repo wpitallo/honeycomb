@@ -97,26 +97,26 @@ export default function extendHexFactory({ ensureXY, Point }) {
              */
             offset: -1,
             /**
-             * Getter for `q` cube coordinate. Calls {@link Hex#cartesianToCube} internally.
+             * Getter for `q` cube coordinate. Calls {@link Hex.cartesianToCube} internally.
              *
              * @memberof Hex#
              * @type {number}
              */
-            get q() { return _cubeProp(this, 'q') },
+            get q() { return Hex.cartesianToCube(this).q },
             /**
-             * Getter for `r` cube coordinate. Calls {@link Hex#cartesianToCube} internally.
+             * Getter for `r` cube coordinate. Calls {@link Hex.cartesianToCube} internally.
              *
              * @memberof Hex#
              * @type {number}
              */
-            get r() { return _cubeProp(this, 'r') },
+            get r() { return Hex.cartesianToCube(this).r },
             /**
-             * Getter for `s` cube coordinate. Calls {@link Hex#cartesianToCube} internally.
+             * Getter for `s` cube coordinate. Calls {@link Hex.cartesianToCube} internally.
              *
              * @memberof Hex#
              * @type {number}
              */
-            get s() { return _cubeProp(this, 's') },
+            get s() { return Hex.cartesianToCube(this).s },
 
             // methods:
             add: methods.addFactory({ Hex, Point }),
@@ -126,7 +126,6 @@ export default function extendHexFactory({ ensureXY, Point }) {
              * @instance
              */
             cartesian: methods.coordinates,
-            cartesianToCube: methods.cartesianToCube,
             center: methods.centerFactory({ Point }),
             coordinates: methods.coordinates,
             corners: methods.cornersFactory({ Point }),
@@ -143,34 +142,34 @@ export default function extendHexFactory({ ensureXY, Point }) {
             round: methods.roundFactory({ Hex }),
             set: methods.setFactory({ Hex }),
             subtract: methods.subtractFactory({ Hex, Point }),
-            /**
-             * Alias for {@link Hex#cartesianToCube}.
-             * @memberof Hex#
-             * @instance
-             */
-            toCube: methods.cartesianToCube,
             toPoint: methods.toPointFactory({ Point }),
             toString: methods.toString,
             width: methods.width
         }
         const finalPrototype = Object.assign(defaultPrototype, prototype)
-
         // ensure origin is a point
         finalPrototype.origin = Point(finalPrototype.origin)
 
+        const isPointy = finalPrototype.isPointy()
+        const offset = finalPrototype.offset
+
         // static methods
         Object.assign(Hex, {
-            cubeToCartesian: statics.cubeToCartesianFactory({
-                isPointy: finalPrototype.isPointy(),
-                offset: finalPrototype.offset
-            }),
+            cartesianToCube: statics.cartesianToCubeFactory({ isPointy, offset }),
+            cubeToCartesian: statics.cubeToCartesianFactory({ isPointy, offset }),
             thirdCoordinate: statics.thirdCoordinate,
             /**
              * Alias for {@link Hex.cubeToCartesian}.
              * @memberof Hex
              * @static
              */
-            toCartesian: Hex.cubeToCartesian
+            toCartesian: Hex.cubeToCartesian,
+            /**
+             * Alias for {@link Hex.cartesianToCube}.
+             * @memberof Hex
+             * @static
+             */
+            toCube: statics.cartesianToCube,
         })
 
         /**
@@ -265,8 +264,4 @@ export default function extendHexFactory({ ensureXY, Point }) {
 
         return Hex
     }
-}
-
-function _cubeProp(context, prop) {
-    return context.cartesianToCube({ x: context.x, y: context.y })[prop]
 }

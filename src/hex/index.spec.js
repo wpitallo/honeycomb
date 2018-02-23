@@ -24,9 +24,11 @@ describe('extendHex', function() {
 
     it('returns a function that has the Hex static methods', function() {
         expect(Object.keys(Hex)).to.eql([
+            'cartesianToCube',
             'cubeToCartesian',
             'thirdCoordinate',
-            'toCartesian'
+            'toCartesian',
+            'toCube'
         ])
     })
 
@@ -47,7 +49,6 @@ describe('extendHex', function() {
 
             'add',
             'cartesian',
-            'cartesianToCube',
             'center',
             'coordinates',
             'corners',
@@ -64,7 +65,6 @@ describe('extendHex', function() {
             'round',
             'set',
             'subtract',
-            'toCube',
             'toPoint',
             'toString',
             'width'
@@ -77,8 +77,8 @@ describe('extendHex', function() {
     })
 
     it('has getters for the q, r and s cube coordinates', () => {
-        const cartesianToCube = sinon.stub().returns({ q: 'q', r: 'r', s: 's' })
-        const hex = extendHex({ cartesianToCube })()
+        sinon.stub(Hex, 'cartesianToCube').returns({ q: 'q', r: 'r', s: 's' })
+        const hex = Hex()
 
         expect(hex.q).to.equal('q')
         expect(hex.r).to.equal('r')

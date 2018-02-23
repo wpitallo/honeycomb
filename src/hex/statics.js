@@ -46,3 +46,25 @@ export function cubeToCartesianFactory({ isPointy, offset }) {
             : { x: q, y: r + offsetFromZero(offset, q) }
     }
 }
+
+export function cartesianToCubeFactory({ isPointy, offset }) {
+    /**
+     * @memberof Hex
+     * @static
+     * @method
+     *
+     * @param {point} cartesianCoordinates  Cartesian `x` and `y` coordinates.
+     * @returns {Object}                    `q`, `r` and `s` cube coordinates.
+     *
+     * @example
+     * const Hex = Honeycomb.extendHex()
+     * Hex.cartesianToCube({ x: 4, y: -2 }) // { q: 5, r: -2, s: -3 }
+     */
+    return function cartesianToCube({ x, y }) {
+        const { q, r } = isPointy
+            ? { q: x - offsetFromZero(offset, y), r: y }
+            : { q: x, r: y - offsetFromZero(offset, x) }
+
+        return { q, r, s: -q - r }
+    }
+}

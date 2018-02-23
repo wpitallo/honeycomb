@@ -1,5 +1,4 @@
 import { EPSILON } from './constants'
-import { offsetFromZero } from '../utils'
 
 const sqrt3 = Math.sqrt(3)
 
@@ -51,35 +50,6 @@ export function cube() {
     return { q: this.q, r: this.r, s: this.s }
 }
 
-/**
- * @memberof Hex#
- *
- * @todo make this a static (and instance?) method
- *
- * @param {Object} cartesianCoordinates     The `x` and `y` cartesian coordinate.
- * @param {number} cartesianCoordinates.x   The `x` cartesian coordinate.
- * @param {number} cartesianCoordinates.y   The `y` cartesian coordinate.
- *
- * @returns {Object}                        The hex's cube `q`, `r` and `s` coordinates.
- *
- * @example
- * const Hex = Honeycomb.extendHex()
- *
- * Hex().cartesianToCube({ x: 4, y: -2 }) // { q: 5, r: -2, s: -3 }
- */
-export function cartesianToCube({ x, y }) {
-    let q, r
-
-    if (this.isPointy()) {
-        q = x - offsetFromZero(this.offset, y)
-        r = y
-    } else {
-        q = x
-        r = y - offsetFromZero(this.offset, x)
-    }
-
-    return { q, r, s: -q - r }
-}
 /**
  * @memberof Hex#
  * @returns {boolean}   Whether hexes have a pointy ⬢ orientation.
