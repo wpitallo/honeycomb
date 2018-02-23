@@ -285,15 +285,10 @@ There are methods for converting between cartesian and cube:
 
 ```javascript
 const Hex = Honeycomb.extendHex()
-const hex = Hex()
 
-hex.toCube({ x: 3, y: 4 })      // { q: 1, r: 4, s: -5 }
-
-// Hex#toCartesian doesn't require the s coordinate:
-hex.toCartesian({ q: 1, r: 4 }) // { x: 3, y: 4 }
+Hex.toCube({ x: 3, y: 4 })      // { q: 1, r: 4, s: -5 }
+Hex.toCartesian({ q: 1, r: 4 }) // { x: 3, y: 4 }
 ```
-
-> These methods always require coordinates to be passed and don't work on a hex instance, even though they're instance methods. This will be fixed in a future release 🙃
 
 Hexes can also be created from cube coordinates:
 
