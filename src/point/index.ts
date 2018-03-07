@@ -1,4 +1,5 @@
-import { isNumber, isArray, isObject } from 'axis.js'
+import { isArray, isNumber, isObject } from 'axis.js'
+import { ensureXYFn } from '../utils'
 import * as methods from './prototype'
 
 /**
@@ -9,12 +10,12 @@ import * as methods from './prototype'
  * @static
  */
 
-export default function PointFactory({ ensureXY }) {
+export default function PointFactory({ ensureXY }: { ensureXY: ensureXYFn }) {
     const prototype = {
         add: methods.addFactory({ Point }),
-        subtract: methods.subtractFactory({ Point }),
+        divide: methods.divideFactory({ Point }),
         multiply: methods.multiplyFactory({ Point }),
-        divide: methods.divideFactory({ Point })
+        subtract: methods.subtractFactory({ Point })
     }
 
     /**
@@ -45,7 +46,7 @@ export default function PointFactory({ ensureXY }) {
      * Point({ y: 2 })          // { x: 2, y: 2 }
      * Point({ x: 1, y: 2 })    // { x: 1, y: 2 }
      */
-    function Point(pointOrX, y) {
+    function Point(pointOrX?: PointInstance | number, y?: number): PointInstance {
         let coordinates
         /**
          * An object with just an `x` and a `y` property.
@@ -82,4 +83,14 @@ export default function PointFactory({ ensureXY }) {
     }
 
     return Point
+}
+
+export interface PointInstance {
+    x: number
+    y: number
+
+    add(): PointInstance
+    divide(): PointInstance
+    multiply(): PointInstance
+    subtract(): PointInstance
 }
