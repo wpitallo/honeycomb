@@ -1,4 +1,5 @@
 import { isNumber } from 'axis.js'
+import { Point } from './point'
 
 /**
  * @private
@@ -75,7 +76,7 @@ export function compassToNumberDirection(value, orientation) {
     }[orientation][value]
 }
 
-export function ensureXY(x, y) {
+export function ensureXY(x?: number, y?: number): Point {
     if (!isNumber(x) && !isNumber(y)) {
         x = y = 0
     } else if (!isNumber(x)) {
@@ -86,3 +87,5 @@ export function ensureXY(x, y) {
 
     return { x, y }
 }
+
+export type ensureXYFn = (x?: number, y?: number) => Point
